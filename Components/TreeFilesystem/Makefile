@@ -2,14 +2,13 @@
 SRC_DIR = src
 INCLUDE_DIR = include
 COMPILED_DIR = compiled
-ROBIN_HOOD_DIR = ../../Libraries/robin-hood-hashing
 
 # Nombre del ejecutable
 EXECUTABLE = main
 
 # Compilador y opciones de compilación
 CXX = g++
-CXXFLAGS = -std=c++20 -Wall -O4 -I$(INCLUDE_DIR) -I$(ROBIN_HOOD_DIR)  # Agrega la ruta a Robin Hood
+CXXFLAGS = -std=c++20 -Wall -O4 -I$(INCLUDE_DIR) -fopenmp
 
 # Obtener la lista de archivos fuente (excluyendo main.cpp)
 SOURCES = $(filter-out main.cpp, $(wildcard $(SRC_DIR)/**/*.cpp))
