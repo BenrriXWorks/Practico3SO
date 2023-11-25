@@ -121,6 +121,7 @@ int main(){
                     
                     // Dibujar las lineas entre puntos en pantalla
                     XDrawLine(display, window, gc, lastScrPoint.first, lastScrPoint.second, newScrPoint.first, newScrPoint.second);
+                    XDrawRectangle(display, window, gc, newScrPoint.first-1, newScrPoint.second-1, 2, 2);
                     //XDrawString(display, window, gc, newScrPoint.first, newScrPoint.second, label, strlen(label));
 
                     // Cambiar registro del ultimo elemento
