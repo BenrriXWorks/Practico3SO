@@ -1,5 +1,5 @@
 {
-"dirBase":".",
+"dirBase":"./testfolder",
 "objetos":[
     {"tipo":"archivo","nombre":"randomFile","contenido":"", "permisos":[]},
     {"tipo":"directorio","nombre":"dir1", "objetos":[

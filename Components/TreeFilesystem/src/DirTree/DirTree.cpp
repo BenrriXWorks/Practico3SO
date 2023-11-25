@@ -83,11 +83,11 @@ void makeObjects(std::string parentDir, const nlohmann::json& object) {
     // Si el archivo es un directorio crearlo y iterar sobre sus objetos
     else if (object["tipo"] == "directorio") {
     
-        // Revisar que esten los atributos propios de un directorio
-        if (!object.contains("objetos")){
-            printf("Carpeta invalida saltada, le falta el atributo objetos: %s\n", object.dump().c_str());
-            return;
-        }
+        // Revisar que esten los atributos propios de un directorio y sean validos
+        if (!object.contains("objetos"))
+            return (void)printf("Carpeta invalida saltada, le falta el atributo objetos: %s\n", object.dump().c_str());
+        if (!object["objetos"].is_array())
+            return (void) printf("La carpeta %s tiene objetos invalidos, saltando hijos\n", fullRoute.c_str());
         
         std::string command = "(mkdir " + parentDir + "/" + name + ") > /dev/null 2>&1";
     
@@ -109,8 +109,21 @@ void makeObjects(std::string parentDir, const nlohmann::json& object) {
 
 void DirTree::createDir() {
 
+    // Validar que se pueda comenzar el proceso
+    if (!js.contains("dirBase") || !js.contains("objetos") || !js["objetos"].is_array())
+        return (void)printf("El objeto base al menos debe contener los campos 'dirBase' y 'objetos' correctos.\n");
+    printf("Revisando si existe directorio base...\n");
+    FileReader fileReader;
+    if (fileReader.checkDirectory(js["dirBase"]))
+        return (void)printf("El directorio base '%s' ya existe, elige otro!\n", ((std::string) js["dirBase"]).c_str());
+    
+    // Crear el directorio base
+    std::string cmdCrearDirBase = "mkdir " + (std::string)js["dirBase"];
+    if (system(cmdCrearDirBase.c_str()) != 0)
+        return (void) printf("No se pudo crear el directorio base, abortando!\n");
+    
     // Comenzar a iterar con una funcion recursiva por cada objeto
-    for (const auto& obj : js.at("objetos")) 
-        makeObjects(js.at("dirBase"), obj);
+    printf("Comenzando creacion...\n");
+    for (const auto& obj : js["objetos"]) 
+        makeObjects(js["dirBase"], obj);
 }
-

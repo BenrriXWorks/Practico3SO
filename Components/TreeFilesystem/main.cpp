@@ -18,7 +18,7 @@ int main(int argc, char** argv){
 
     // Crear los archivos y carpetas
     dirTree->createDir();
-    fputs_unlocked("Se ha concretado la creacion de archivos y directorios\n", stdout);
+    fputs_unlocked("Proceso concretado\n", stdout);
     return EXIT_SUCCESS;
 
 }
