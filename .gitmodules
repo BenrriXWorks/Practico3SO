@@ -1,3 +1,6 @@
 [submodule "Libraries/json"]
 	path = Libraries/json
 	url = https://github.com/nlohmann/json.git
+[submodule "Libraries/easy_plot_cpp"]
+	path = Libraries/easy_plot_cpp
+	url = https://github.com/NewYaroslav/easy_plot_cpp.git
