@@ -65,12 +65,12 @@ int main(int argc, char** argv){
         printf("No se pudo leer el archivo de puntos\n");
         return EXIT_FAILURE;
     }
-    // Interpretar el archivo de entrada y validar su formato
+    // Interpretar el archivo de entrada y validar su formato (EL Titulo puede estar vacio)
     vector<pair<float, float>> points;
     string title;
     try{
         auto [titleKey, titlevalue] = split1(fileReader.readLine(), ':');
-        if (titleKey != "titulo") throw runtime_error("Debe ingresar el titulo en la primera linea\n");
+        if (titleKey != "titulo") throw runtime_error("Debe ingresar el titulo en la primera linea asi: titulo:{TITULO}");
         title = stripAllOf(titlevalue, "\"'");
         for (const auto& line : fileReader.readLines()){
             // En caso de lineas vacias se salta
@@ -80,11 +80,12 @@ int main(int argc, char** argv){
             auto [xkey, xvalue] = split1(xstr, ':');
             auto [ykey, yvalue] = split1(ystr, ':'); 
             if (xkey != "x" || ykey != "y") 
-                throw runtime_error("No se respeto el formato de archivo de entrada\n");
+                throw runtime_error("No se respeto el formato x:n,y:n del archivo de entrada");
             points.push_back(make_pair(stof(xvalue), stof(yvalue)));
         }
-    } catch(...){
+    } catch(exception &e){
         printf("El archivo de entrada no cumple con el formato establecido\n");
+        printf("Error especifico: %s\n", e.what());
         return EXIT_FAILURE;
     }
 
