@@ -70,7 +70,6 @@ int main(int argc, char** argv){
     string title;
     try{
         auto [titleKey, titlevalue] = split1(fileReader.readLine(), ':');
-        printf("titulo: %s\n", title.c_str());
         if (titleKey != "titulo") throw runtime_error("Debe ingresar el titulo en la primera linea\n");
         title = stripAllOf(titlevalue, "\"'");
         for (const auto& line : fileReader.readLines()){
