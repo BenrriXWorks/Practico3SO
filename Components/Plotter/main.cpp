@@ -1,136 +1,103 @@
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <vector>
-#include <algorithm>
-#include <execution>
+#include "include/Plotter.h"
+#include "include/FileReader.h"
+#include "include/Functions.h"
 
-#define GRAPH_SIZE 100
-#define WINDOW_SIZE 500
-#define PADDING 20
-#define SCR_BOTTOM_AXIS_X (WINDOW_SIZE - PADDING)
-#define SCR_BOTTOM_AXIS_Y (WINDOW_SIZE - PADDING)
+using namespace std;
 
-// Regla de 3 para transformar los puntos del grafico
-std::pair<float, float> transformPoint(std::pair<unsigned char, unsigned char> point, unsigned int axisLength, unsigned int graphSize, unsigned int padding){
-    return std::pair<float, float> (point.first*axisLength/100 + padding, (graphSize - point.second)*axisLength/100 - padding);
-}
+int main(int argc, char** argv){
 
-int main(){
-
-    // Colocar el titulo del grafico por ponerlo
-    char titulo[512]{};
-    strcpy(titulo, "El graficador de Benrrix");
-
-    // Leer los puntos
-    std::vector<std::pair<unsigned char, unsigned char>> points {{1,5},{3,6},{4,8},{10,9},{32,15},{50,50}};
-    // Transformar los puntos a coordenadas de pantalla
-    auto pointsComparator = [](std::pair<unsigned char, unsigned char> p1, std::pair<unsigned char, unsigned char> p2){ return p1.first < p2.first; };
-    sort(std::execution::par, points.begin(), points.end(), pointsComparator);
-
-    // Iniciar el display
-    Display *display = XOpenDisplay(nullptr);
-    if (display == nullptr) {
-        fputs_unlocked("No se pudo crear la pantalla\n", stdout);
+    // Leer los argumentos
+    if (argc != 2){
+        printf("Debes ingresar la ruta del archivo de puntos\n");
         return EXIT_FAILURE;
     }
-    
-    // Crear la pantalla 'drawable'
-    int screen = DefaultScreen(display);
-    GC gc = DefaultGC(display, screen);
 
-    // Iniciar la ventana 
-    Window window = XCreateSimpleWindow(
-        display, 
-        RootWindow(display, screen),
-        GRAPH_SIZE, GRAPH_SIZE,
-        WINDOW_SIZE, WINDOW_SIZE,
-        1,
-        BlackPixel(display, screen),
-        WhitePixel(display,screen)
-    ); 
-    
-
-    // Enlazar el display a la ventana
-    XSelectInput(display, window, ExposureMask | KeyPressMask);
-    XMapWindow(display, window);
-
-    // Tamano minimo de la pantalla
-    XSizeHints windowSizeHint;
-    windowSizeHint.flags = PMinSize | PMaxSize;
-    windowSizeHint.min_width = WINDOW_SIZE;
-    windowSizeHint.min_height = WINDOW_SIZE;
-    windowSizeHint.max_height = WINDOW_SIZE;
-    XSetWMNormalHints(display, window, &windowSizeHint);
-
-    for (;;){
-
-        // Leer los eventos (Iniciar o presionar una tecla para cerrar)
-        XEvent event;
-        XNextEvent(display, &event);
-
-        if (event.type == KeyPress){
-            break;
-        }
-
-        // Si la ventana carga por primera vez, se colocan los puntos en el display
-        if (event.type == Expose){
-
-            // Titulo del grafico
-            XDrawString(display, window, gc, WINDOW_SIZE/2 - strlen(titulo)*2, PADDING, titulo, strlen(titulo));
-
-            // Colocar los ejes
-            XDrawLine(display, window, gc, PADDING, SCR_BOTTOM_AXIS_X, SCR_BOTTOM_AXIS_X, SCR_BOTTOM_AXIS_X);
-            XDrawLine(display, window, gc, PADDING, PADDING, PADDING, SCR_BOTTOM_AXIS_Y);
-
-            // Dibujar las lineas indicadoras y los strings labels
-            int diezPorciento = (SCR_BOTTOM_AXIS_X - PADDING)/10;
-            for (int i = diezPorciento + PADDING; i < SCR_BOTTOM_AXIS_X + 1; i += diezPorciento){
-                // Label de las lineas:
-                char* lineLabel = new char[4] {};
-                sprintf(lineLabel, "%d", (i-PADDING)/diezPorciento*10);
-                // Lineas inferiores
-                XDrawLine(display, window, gc, i, SCR_BOTTOM_AXIS_Y + PADDING/4, i, SCR_BOTTOM_AXIS_Y - PADDING/4);
-                XDrawString(display, window, gc, i - 4, SCR_BOTTOM_AXIS_Y + PADDING - 2, lineLabel, strlen(lineLabel));
-                // Lineas superiores
-                XDrawLine(display, window, gc, PADDING/4, SCR_BOTTOM_AXIS_Y + PADDING - i, PADDING*1.25f, SCR_BOTTOM_AXIS_Y + PADDING - i);
-                XDrawString(display, window, gc, PADDING/2 - 4, SCR_BOTTOM_AXIS_Y + PADDING - i, lineLabel, strlen(lineLabel));
-            
-            }
-
-            // Dibujar los puntos
-            if (points.size() == 1)
-                return(fputs_unlocked("No puedes hacer un grafico de lineas con un punto :(\n",stdout),EXIT_FAILURE);
-            else {
-
-                // Por cada par de puntos, hacer una linea
-                auto last = points.front();
-                for (size_t i = 1; i < points.size(); ++i){
-                    
-                    // Colocar el label sobre los puntos
-                    auto p = points[i];
-                    char label[50]{};
-                    sprintf(label, "(%d, %d)", p.first, p.second);
-                    
-                    // Transformar los puntos a coordenadas de pantalla
-                    auto newScrPoint = transformPoint(p, SCR_BOTTOM_AXIS_X, GRAPH_SIZE, PADDING);
-                    auto lastScrPoint = transformPoint(last, SCR_BOTTOM_AXIS_X, GRAPH_SIZE, PADDING);
-                    printf("Transformed point: %f, %f\n", newScrPoint.first, newScrPoint.second);
-                    
-                    // Dibujar las lineas entre puntos en pantalla
-                    XDrawLine(display, window, gc, lastScrPoint.first, lastScrPoint.second, newScrPoint.first, newScrPoint.second);
-                    XDrawRectangle(display, window, gc, newScrPoint.first-1, newScrPoint.second-1, 2, 2);
-                    //XDrawString(display, window, gc, newScrPoint.first, newScrPoint.second, label, strlen(label));
-
-                    // Cambiar registro del ultimo elemento
-                    last = p;
-                }
-
-            }
-        }
+    // Conseguir la ruta y verificar la extension
+    std::string route = argv[1];
+    if (route.size() < 4 || route.substr(route.size()-3) != "gra"){
+        printf("El archivo de grafico debe ser de extension .gra\n");
+        return EXIT_FAILURE;
     }
 
+    // Leer rapidamente las variables de entorno del archivo si es necesario
+    FileReader envFileReader;
+    envFileReader.open(".env");
+    for (const auto& line : envFileReader.readLines()){
+        auto [key, value] = split1(line, '=');
+        setenv(key.c_str(), value.c_str(), 1);
+    }
+    envFileReader.close();
+
+
+    // Leer las variables de entorno
+    vector<const char*> envNames {
+        "WINDOW_SIZE",
+        "PADDING"
+    };
+
+    // Si falta alguna, terminar la ejecucion
+    if (any_of(envNames.begin(), envNames.end(), [](auto x){return !getenv(x);})){
+        fputs_unlocked("Faltan variables de entorno, al menos deben estar:\n", stdout);
+        for (const char* s : envNames) printf("%s : %d\n", s, getenv(s) == nullptr);
+        return EXIT_FAILURE;
+    }
+
+
+    // Establecer margenes seguros de pantalla y padding
+    int padding = stoi(getenv("PADDING")), windowSize = stoi(getenv("WINDOW_SIZE"));
+    if (padding > 100 || padding < 30){
+        printf("Se dejara el padding en los margenes seguros [30-100]\n");
+        char newPadding[4];
+        padding = max(30, min(100, padding));
+        sprintf(newPadding,"%d", padding);
+        setenv("PADDING", newPadding, true);
+    }
+    if (windowSize < 500){
+        printf("El tamano minimo permitido es 500x500px, reescalando\n");
+        char newWindowSize[4];
+        sprintf(newWindowSize, "%d", 500);
+        setenv("WINDOW_SIZE", newWindowSize, true);
+    }
+
+    // Leer el archivo de datos
+    FileReader fileReader;
+    if (!fileReader.open(route)){
+        printf("No se pudo leer el archivo de puntos\n");
+        return EXIT_FAILURE;
+    }
+    // Interpretar el archivo de entrada y validar su formato
+    vector<pair<float, float>> points;
+    string title;
+    try{
+        auto [titleKey, titlevalue] = split1(fileReader.readLine(), ':');
+        printf("titulo: %s\n", title.c_str());
+        if (titleKey != "titulo") throw runtime_error("Debe ingresar el titulo en la primera linea\n");
+        title = stripAllOf(titlevalue, "\"'");
+        for (const auto& line : fileReader.readLines()){
+            // En caso de lineas vacias se salta
+            if (line.empty()) continue;
+            // Sacar los valores de la forma x:n,y:n
+            auto [xstr, ystr] = split1(line, ',');
+            auto [xkey, xvalue] = split1(xstr, ':');
+            auto [ykey, yvalue] = split1(ystr, ':'); 
+            if (xkey != "x" || ykey != "y") 
+                throw runtime_error("No se respeto el formato de archivo de entrada\n");
+            points.push_back(make_pair(stof(xvalue), stof(yvalue)));
+        }
+    } catch(...){
+        printf("El archivo de entrada no cumple con el formato establecido\n");
+        return EXIT_FAILURE;
+    }
+
+
+    // Ordenar los puntos (comparando con la clave x)
+    auto pointsComparator = [](std::pair<float, float> p1, std::pair<float, float> p2){ return p1.first < p2.first; };
+    sort(std::execution::par, points.begin(), points.end(), pointsComparator);
+
+    // Crear el grafico
+    plot(points, title.c_str());
+    printf("Grafico cerrado!\n");
+
     return EXIT_SUCCESS;
+
 }
