@@ -13,6 +13,7 @@ class DirCircle
 private:
     std::string dirbase;
     std::map <std::string, std::vector<std::string>> dirs;
+    std::map <std::string, std::string> rutas;
     bool process(std::string path, int N , int R);
 
     void createSubdirs();

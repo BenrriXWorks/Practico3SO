@@ -50,8 +50,12 @@ bool DirCircle::process(std::string path,int N , int R){
 
         // Obtener claves de dirs
         std::string dir;
+        std::string acc = "";
         while (std::getline(dirsStream, dir, ';')) {
             dirs[dir] = std::vector<std::string>();
+            rutas[dir] = acc + dir;
+            acc +=  dir + "/";
+            
         }
         if(dirs.size() >N){
             printf("Se excedio el maximo de directorios\n");
@@ -122,7 +126,7 @@ void DirCircle::createSubdirs() {
     
 
     for (; it != dirs.end(); ++it) {
-        std::istringstream iss(it->first);
+        std::istringstream iss(rutas[it->first]);
         std::string subdir;
         while (std::getline(iss, subdir, ';')) {
             std::string dirPath = dirbase + subdir;
@@ -134,7 +138,7 @@ void DirCircle::createSubdirs() {
             
         }
     }
-    std::filesystem::create_directory_symlink("../" + dirs.begin()->first,dirbase + lastIt->first+"/link_to_first");
+    std::filesystem::create_directory_symlink("../" + rutas[dirs.begin()->first],dirbase + rutas[lastIt->first]+"/link_to_first");
      
 
 }
@@ -142,8 +146,8 @@ void DirCircle::createSubdirs() {
 void DirCircle::createFiles() {
     // Crear archivos en los directorios señalados
     for (const auto& entry : dirs) {
-        std::string dirPath = dirbase + entry.first + "/";
-
+        std::string dirPath = dirbase + rutas[entry.first] + "/";
+        printf("%s",dirPath.c_str());
         for (const auto& file : entry.second) {
             std::ofstream outfile(dirPath + file);
             outfile.close();
