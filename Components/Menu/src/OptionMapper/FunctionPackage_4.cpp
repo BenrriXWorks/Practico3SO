@@ -3,7 +3,7 @@
 
 void llamarBuscador(){
 
-    fputs_unlocked("FunpPac_4:\n",stdout);
+    fputs_unlocked("FunPac_4:\n",stdout);
     EnvLoader env = *EnvLoader::getInstance();
 
     if (getenv("INVERTED_INDEX_EXECUTED?") == nullptr){
