@@ -64,8 +64,7 @@ void mostrarGrafico(){
     printf("FunPac_5:\n");
     EnvLoader env = *EnvLoader :: getInstance();
     std::map<const char*, std::string> requieredEnv {
-        {"PLOTTER_EXEC","PLOTTER_INPUT_ROUTE"},
-        {"INPUT_FILE", "PLOTTER_EXEC_ROUTE"},
+        {"PLOTTER_EXEC","PLOTTER_EXEC_ROUTE"},
         {"PADDING", "PLOTTER_PADDING"},
         {"WINDOW_SIZE", "PLOTTER_WINDOW_SIDE_SIZE"}
     };
@@ -75,17 +74,26 @@ void mostrarGrafico(){
         if (env[reqEnv.second] == "")
             return (void) printf("mostrarGrafico: Falta la variable de entorno %s\n", reqEnv.second.c_str());
 
-    std::string rutaArchivoPuntos = env[requieredEnv["INPUT_FILE"]];
+    // Guardar las variables de entorno
     std::string rutaEjecutablePlotter = env[requieredEnv["PLOTTER_EXEC"]];
     std::string padding = env[requieredEnv["PADDING"]];
     std::string windowSize = env[requieredEnv["WINDOW_SIZE"]];
 
+    // Preguntar la ruta del archivo de entrada por consola
+    int bufferSize = 1024;
+    char* inputFile = new char[bufferSize];
+    clearWindow();
+    fputs_unlocked("-- ACCION REQUERIDA --\nIngrese la ruta del archivo de puntos: ", stdout);
+    if (fgets_unlocked(inputFile, bufferSize, stdin) == nullptr) return (void) fputs_unlocked("No se pudo leer la entrada\n", stdout);
+    fputs_unlocked("Entrada recibida\n\n", stdout);
+    setenv("RESTART_MENU?", "1", true); // Reiniciar el menu igual que como el buscador antes
 
-
-    // Ejecutar
-    std::string command = "WINDOW_SIZE=" + windowSize + " PADDING=" + padding + " " + rutaArchivoPuntos + " " + rutaEjecutablePlotter;
+    // Ejecutar el plotter
+    std::string command = "WINDOW_SIZE=" + windowSize + " PADDING=" + padding + " " + rutaEjecutablePlotter + " " + inputFile;
     printf("Comando ejecutado: %s\n", command.c_str());
-    if (system(command.c_str()))
-        printf("mostrarGrafico: Hubo un error en la ejecucion\n");
+    if (system(command.c_str())){
+        printf("mostrarGrafico: Hubo un error en la ejecucion.\nPresione cualquier tecla para continuar...\n");
+        getchar_unlocked();
+    }
     
 }
