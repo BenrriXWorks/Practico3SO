@@ -20,6 +20,7 @@ private:
     void createFiles();
 
 public:
+    std::string getDirbase(){return dirbase;}
     static DirCircle* fromFile(std::string path, std::string extension, int N, int R);
     void createDir();
 

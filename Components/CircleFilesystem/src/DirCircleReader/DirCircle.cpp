@@ -116,7 +116,7 @@ void DirCircle::createDir()
 void DirCircle::createSubdirs() {
     // Crear directorio base
     if (mkdir(dirbase.c_str(), 0777) == -1) {
-        printf("Error al crear el directorio base\n");
+        printf("El directorio base ya existe\n");
         exit(EXIT_FAILURE);
     }
 
@@ -124,7 +124,7 @@ void DirCircle::createSubdirs() {
     auto it = dirs.begin();
     auto lastIt = std::prev(dirs.end());
     
-
+    std::string acc = "";
     for (; it != dirs.end(); ++it) {
         std::istringstream iss(rutas[it->first]);
         std::string subdir;
@@ -135,10 +135,14 @@ void DirCircle::createSubdirs() {
                 exit(EXIT_FAILURE);
             }
             
+            acc += "../";
             
         }
     }
-    std::filesystem::create_directory_symlink("../" + rutas[dirs.begin()->first],dirbase + rutas[lastIt->first]+"/link_to_first");
+    
+    std::filesystem::create_directory_symlink(acc + dirs.begin()->first, dirbase + rutas[lastIt->first]+"/link_to_first");
+     
+    //std::filesystem::create_directory_symlink("../" + dirs.begin()->first,dirbase + rutas[lastIt]->first+"/link_to_first");
      
 
 }

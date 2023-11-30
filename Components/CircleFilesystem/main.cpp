@@ -20,8 +20,14 @@ int main (int argc, char** argv){
     //Crear los archivos y carpetas
 
     dirCircle-> createDir();
-    delete dirCircle;
-
     fputs_unlocked("Se ha concretado la creacion de archivos y directorios\n", stdout);
+    
+    
+    fputs_unlocked("Ejecutando tree en dirBase:\n\n", stdout);
+    std::string command = std::string("tree ") + (path[0] == '/' ? "" : "./") + (std::string) dirCircle->getDirbase();
+    if (system(command.c_str()))
+        fputs_unlocked("Hubo un error al imprimir la respuesta, revision manual requerida\n", stdout);
+    
+    delete dirCircle;
     return EXIT_SUCCESS;
 }
