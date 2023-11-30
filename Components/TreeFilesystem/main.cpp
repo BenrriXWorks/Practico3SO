@@ -18,7 +18,15 @@ int main(int argc, char** argv){
 
     // Crear los archivos y carpetas
     dirTree->createDir();
-    fputs_unlocked("Proceso concretado\n", stdout);
+    fputs_unlocked("Creacion finalizada\n", stdout);
+
+    // Ejecutar el tree
+    if (!dirTree->getjs().contains("dirBase")) return EXIT_FAILURE;
+    fputs_unlocked("Ejecutando tree en dirBase:\n\n", stdout);
+    std::string command = std::string("tree -p ") + (path[0] == '/' ? "" : "./") + (std::string) dirTree->getjs()["dirBase"];
+    if (system(command.c_str()))
+        fputs_unlocked("Hubo un error al imprimir la respuesta, revision manual requerida\n", stdout);
+    
     return EXIT_SUCCESS;
 
 }
