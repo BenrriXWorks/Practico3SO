@@ -2,14 +2,39 @@
 
 void crearCarpetasArbol(){
 
+    // Ubicar la funcion en caso de errores
+    printf("FunPac_5:\n");
+    EnvLoader env = *EnvLoader :: getInstance();
+
+    // Definir las variables de entorno necesarias
+    std::map<const char*, std::string> requieredEnv {
+        {"INPUT_FILE", "TREE_FILESYSTEM_INPUT_ROUTE"},
+        {"EXECUTABLE", "TREE_FILESYSTEM_EXEC_ROUTE"}
+    };
+
+    // Revisar que no falten variables de entorno
+    for (const auto& reqEnv : requieredEnv)
+        if (env[reqEnv.second] == "")
+            return (void) printf("crearCarpetasArbol: Falta la variable de entorno %s\n", reqEnv.second.c_str());
+
+    // Recibir las variables de entorno
+    std::string ditRoute = env[requieredEnv["INPUT_FILE"]];
+    std::string execRoute = env[requieredEnv["EXECUTABLE"]];
+
+    // Ejecutar el comando
+    std::string command = (execRoute + " " + ditRoute).c_str();
+    printf("Comando ejecutado: %s\n", command.c_str());
+    if (system(command.c_str()))
+        printf("crearCarpetasArbol: Hubo un error en la ejecucion\n");
+    
 }
 
 void crearCarpetasLista(){
     printf("FunPac_5:\n");
-    EnvLoader env = *EnvLoader ::getInstance();
+    EnvLoader env = *EnvLoader :: getInstance();
 
     std::map<const char*, std::string> requieredEnv {
-        {"IMPUT_FILE","DIR_CIRCLE_INPUT_ROUTE"},
+        {"INPUT_FILE","DIR_CIRCLE_INPUT_ROUTE"},
         {"CIRCLE_EXEC", "DIR_CIRCLE_EXEC_ROUTE"},
         {"DIR_MAX", "DIR_MAX_CIRCLE_FILESYSTEM"},
         {"AR_MAX", "AR_MAX_CIRCLE_FILESYSTEM"}
@@ -18,7 +43,7 @@ void crearCarpetasLista(){
     // Revisar que no falten variables de entorno
     for (const auto& reqEnv : requieredEnv)
         if (env[reqEnv.second] == "")
-            return (void) printf("dirCircular: Falta la variable de entorno %s\n", reqEnv.second.c_str());
+            return (void) printf("crearCarpetasLista: Falta la variable de entorno %s\n", reqEnv.second.c_str());
 
 
     std::string rutaArchivoDirCircle = env[requieredEnv["INPUT_FILE"]];
@@ -30,7 +55,7 @@ void crearCarpetasLista(){
     std::string command = rutaEjecutableDirCircle + " " + rutaArchivoDirCircle + " " + maxDirectorios + " " + maxArchivos;
     printf("Comando ejecutado= %s\n",command.c_str());
     if(system(command.c_str()))
-        printf("directorioCircular: Hubo un error en la ejecucion\n");
+        printf("crearCarpetasLista: Hubo un error en la ejecucion\n");
 }
 
 void mostrarGrafico(){
