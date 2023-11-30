@@ -4,3 +4,6 @@
 [submodule "Libraries/easy_plot_cpp"]
 	path = Libraries/easy_plot_cpp
 	url = https://github.com/NewYaroslav/easy_plot_cpp.git
+[submodule "Libraries/robin-hood-hashing"]
+	path = Libraries/robin-hood-hashing
+	url = https://github.com/martinus/robin-hood-hashing.git

@@ -1,0 +1,3 @@
+admin;*
+general;1,2,3,4,5
+rookie;1,2,3

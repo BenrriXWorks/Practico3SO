@@ -1,0 +1,4 @@
+benjamin,admin
+javier,general
+godoy,rookie
+carolina,admin

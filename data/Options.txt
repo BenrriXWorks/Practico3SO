@@ -1,0 +1,15 @@
+0,Salir del programa,salir
+9,Generar indice de palabras,createIndexFolder
+10,Generar archivo de indice invertido,invertIndexFolder
+2,Calcular la sumatoria del vector v,sumatoria
+3,Calcular el promedio del vector v,promedio
+4,Calcular la moda del vector v,moda
+5,Contar los elementos del vector v,cuentaElementos
+1,Ver argumentos entregados,verArgumentos
+6,Crear un archivo de texto f,crearArchivo
+7,Escribir t en el archivo de texto f,agregarTexto
+8,Contar palabras en archivo i en o,contarPalabras
+11,Buscar en el indice invertido (llamar buscador),llamarBuscador
+12,Crear carpetas basado en sistema de archivos de arbol,crearCarpetasArbol
+13,Crear carpetas basado en sistema de archivos de lista circular,crearCarpetasLista
+14,Mostrar grafico de los puntos entregados,mostrarGrafico
