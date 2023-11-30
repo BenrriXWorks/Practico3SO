@@ -1,7 +1,7 @@
 #include "include/DirCircle.h"
 
 int main (int argc, char** argv){
-    
+
     if(argc != 4){
         printf("Debes ingresar la ruta del archivo de directorio .dre y el maximo de directorios y archivos\n");
         return EXIT_FAILURE;

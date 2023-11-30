@@ -21,5 +21,5 @@ private:
 public:
     static DirCircle* fromFile(std::string path, std::string extension, int N, int R);
     void createDir();
-     
+
 };

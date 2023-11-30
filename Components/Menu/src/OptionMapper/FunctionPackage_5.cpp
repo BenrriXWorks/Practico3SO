@@ -9,8 +9,8 @@ void crearCarpetasLista(){
     EnvLoader env = *EnvLoader ::getInstance();
 
     std::map<const char*, std::string> requieredEnv {
-        {"CIRCLE_EXEC","DIR_CIRCLE_INPUT_ROUTE"},
-        {"INPUT_FILE", "DIR_CIRCLE_EXEC_ROUTE"},
+        {"IMPUT_FILE","DIR_CIRCLE_INPUT_ROUTE"},
+        {"CIRCLE_EXEC", "DIR_CIRCLE_EXEC_ROUTE"},
         {"DIR_MAX", "DIR_MAX_CIRCLE_FILESYSTEM"},
         {"AR_MAX", "AR_MAX_CIRCLE_FILESYSTEM"}
     };
@@ -22,12 +22,12 @@ void crearCarpetasLista(){
 
 
     std::string rutaArchivoDirCircle = env[requieredEnv["INPUT_FILE"]];
-    std::string rutaEjecutableDirCircle = env[requieredEnv["CIRCLE_EXEX"]];
+    std::string rutaEjecutableDirCircle = env[requieredEnv["CIRCLE_EXEC"]];
     std::string maxDirectorios = env[requieredEnv["DIR_MAX"]];
     std::string maxArchivos = env[requieredEnv["AR_MAX"]];
 
     
-    std::string command = rutaEjecutableDirCircle + " " + rutaArchivoDirCircle + " " + maxArchivos;
+    std::string command = rutaEjecutableDirCircle + " " + rutaArchivoDirCircle + " " + maxDirectorios + " " + maxArchivos;
     printf("Comando ejecutado= %s\n",command.c_str());
     if(system(command.c_str()))
         printf("directorioCircular: Hubo un error en la ejecucion\n");
