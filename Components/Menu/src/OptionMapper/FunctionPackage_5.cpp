@@ -5,7 +5,32 @@ void crearCarpetasArbol(){
 }
 
 void crearCarpetasLista(){
+    printf("FunPac_5:\n");
+    EnvLoader env = *EnvLoader ::getInstance();
+
+    std::map<const char*, std::string> requieredEnv {
+        {"CIRCLE_EXEC","DIR_CIRCLE_INPUT_ROUTE"},
+        {"INPUT_FILE", "DIR_CIRCLE_EXEC_ROUTE"},
+        {"DIR_MAX", "DIR_MAX_CIRCLE_FILESYSTEM"},
+        {"AR_MAX", "AR_MAX_CIRCLE_FILESYSTEM"}
+    };
+
+    // Revisar que no falten variables de entorno
+    for (const auto& reqEnv : requieredEnv)
+        if (env[reqEnv.second] == "")
+            return (void) printf("dirCircular: Falta la variable de entorno %s\n", reqEnv.second.c_str());
+
+
+    std::string rutaArchivoDirCircle = env[requieredEnv["INPUT_FILE"]];
+    std::string rutaEjecutableDirCircle = env[requieredEnv["CIRCLE_EXEX"]];
+    std::string maxDirectorios = env[requieredEnv["DIR_MAX"]];
+    std::string maxArchivos = env[requieredEnv["AR_MAX"]];
+
     
+    std::string command = rutaEjecutableDirCircle + " " + rutaArchivoDirCircle + " " + maxArchivos;
+    printf("Comando ejecutado= %s\n",command.c_str());
+    if(system(command.c_str()))
+        printf("directorioCircular: Hubo un error en la ejecucion\n");
 }
 
 void mostrarGrafico(){

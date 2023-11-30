@@ -2,7 +2,7 @@
 
 
 
-DirCircle* DirCircle::fromFile(std::string route, std::string extension){
+DirCircle* DirCircle::fromFile(std::string route, std::string extension, int N , int R){
 
     std::string filename = route.substr(route.find_last_of("\\/")+1);
     std::string fileExtension = filename.substr(filename.find_last_of('.')+1);
@@ -13,7 +13,7 @@ DirCircle* DirCircle::fromFile(std::string route, std::string extension){
     }
 
     DirCircle* dirCircle = new DirCircle();
-    if(!dirCircle->process(route)) return nullptr;
+    if(!dirCircle->process(route,N,R) )return nullptr;
     
 
     // Procesar el contenido del archivo y llenar dirCircle->dirbase y dirCircle->dirs
@@ -22,7 +22,7 @@ DirCircle* DirCircle::fromFile(std::string route, std::string extension){
 
 }
 
-bool DirCircle::process(std::string path){
+bool DirCircle::process(std::string path,int N , int R){
     // Utiliza FileReader para abrir y leer el archivo
     FileReader reader;
     if (!reader.open(path)) {
@@ -37,6 +37,10 @@ bool DirCircle::process(std::string path){
     if (line.find("dirbase=") == 0) {
         dirbase = line.substr(8);
     }
+    else{
+        printf("Formato del archivo %s invalido\n",path.c_str());
+        return false;
+    } 
 
     // Leer dirs
     line = reader.readLine();
@@ -48,6 +52,10 @@ bool DirCircle::process(std::string path){
         std::string dir;
         while (std::getline(dirsStream, dir, ';')) {
             dirs[dir] = std::vector<std::string>();
+        }
+        if(dirs.size() >N){
+            printf("Se excedio el maximo de directorios\n");
+            return false;
         }
 
         // Leer y asociar valores a las claves
@@ -63,9 +71,18 @@ bool DirCircle::process(std::string path){
             std::getline(fileStream, files);
 
             // Agregar los archivos al vector asociado a la clave
-            dirs[dir] = split(files, ';');
+            std::vector< std::string > archivos = split(files, ';');
+            if(archivos.size() > R){
+                printf("Se excedio el maximo de archivos");
+                return false;
+            }
+            dirs[dir] = archivos;
         }
     }
+    else{
+        printf("Formato del archivo %s invalido\n",path.c_str());
+        return false;
+    } 
 
     reader.close();
     return true;
@@ -95,7 +112,7 @@ void DirCircle::createDir()
 void DirCircle::createSubdirs() {
     // Crear directorio base
     if (mkdir(dirbase.c_str(), 0777) == -1) {
-        printf("Error al crear el directorio base");
+        printf("Error al crear el directorio base\n");
         exit(EXIT_FAILURE);
     }
 
@@ -110,7 +127,7 @@ void DirCircle::createSubdirs() {
         while (std::getline(iss, subdir, ';')) {
             std::string dirPath = dirbase + subdir;
             if (mkdir(dirPath.c_str(), 0777) == -1) {
-                printf("Error al crear el directorio %s",dirPath.c_str());
+                printf("Error al crear el directorio %s\n",dirPath.c_str());
                 exit(EXIT_FAILURE);
             }
             

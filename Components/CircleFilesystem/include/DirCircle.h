@@ -13,13 +13,13 @@ class DirCircle
 private:
     std::string dirbase;
     std::map <std::string, std::vector<std::string>> dirs;
-    bool process(std::string path);
+    bool process(std::string path, int N , int R);
 
     void createSubdirs();
     void createFiles();
 
 public:
-    static DirCircle* fromFile(std::string path, std::string extension);
+    static DirCircle* fromFile(std::string path, std::string extension, int N, int R);
     void createDir();
      
 };
