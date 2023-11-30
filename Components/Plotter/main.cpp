@@ -81,6 +81,11 @@ int main(int argc, char** argv){
             auto [ykey, yvalue] = split1(ystr, ':'); 
             if (xkey != "x" || ykey != "y") 
                 throw runtime_error("No se respeto el formato x:n,y:n del archivo de entrada");
+            // Revisar que no se salga del dominio
+            if (atof(xvalue.c_str()) > 100 || atof(xvalue.c_str()) < 0 || atof(yvalue.c_str()) > 100 || atof(yvalue.c_str()) < 0){
+                printf("El punto (%f, %f) se sale del dominio de [(x,y) | x <- [0..100], y <- [0..100]\n", stof(xvalue.c_str()), stof(yvalue.c_str()));
+                throw runtime_error("Punto fuera de dominio establecido\n");
+            }
             points.push_back(make_pair(stof(xvalue), stof(yvalue)));
         }
     } catch(exception &e){
