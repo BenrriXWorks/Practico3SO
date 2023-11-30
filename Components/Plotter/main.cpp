@@ -19,29 +19,31 @@ int main(int argc, char** argv){
         return EXIT_FAILURE;
     }
 
-    // Leer rapidamente las variables de entorno del archivo si es necesario
-    FileReader envFileReader;
-    envFileReader.open(".env");
-    for (const auto& line : envFileReader.readLines()){
-        auto [key, value] = split1(line, '=');
-        setenv(key.c_str(), value.c_str(), 1);
-    }
-    envFileReader.close();
-
+   
 
     // Leer las variables de entorno
     vector<const char*> envNames {
         "WINDOW_SIZE",
         "PADDING"
     };
-
-    // Si falta alguna, terminar la ejecucion
+    // Si faltan, leerlas desde el archivo .env
     if (any_of(envNames.begin(), envNames.end(), [](auto x){return !getenv(x);})){
-        fputs_unlocked("Faltan variables de entorno, al menos deben estar:\n", stdout);
-        for (const char* s : envNames) printf("%s : %d\n", s, getenv(s) == nullptr);
-        return EXIT_FAILURE;
+     // Leer rapidamente las variables de entorno del archivo si es necesario
+        FileReader envFileReader;
+        envFileReader.open(".env");
+        for (const auto& line : envFileReader.readLines()){
+            auto [key, value] = split1(line, '=');
+            setenv(key.c_str(), value.c_str(), 1);
+        }
+        envFileReader.close();
     }
-
+    // Si aun asi falta alguna, decir cual y retornar error.
+    for (auto s : envNames){
+        if (!getenv(s)){
+            printf("Falta la variable de entorno %s\n", s);
+            return EXIT_FAILURE;
+        }
+    }
 
     // Establecer margenes seguros de pantalla y padding
     int padding = stoi(getenv("PADDING")), windowSize = stoi(getenv("WINDOW_SIZE"));
