@@ -31,4 +31,5 @@ Ejecute make para compilar
 *Uso*
 En linux se puede ejecutar asi:
     ./main (direccion del archivo .dre) (numero maximo de directiorios) (numero maximo de archivos)
+Ej: ./main ../../data/Test.dre 10 10
 Todos los argumentos son obligatorios

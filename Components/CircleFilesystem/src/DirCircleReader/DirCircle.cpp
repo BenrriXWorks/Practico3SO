@@ -102,21 +102,8 @@ bool DirCircle::process(std::string path,int N , int R){
 
 void DirCircle::createDir()
 {
-
-    
     createSubdirs();
     createFiles();
-
-    /*printf("Dir base = %s\n",dirbase.c_str());
-    printf("\n");
-    for (const auto& entry : dirs) {
-        printf("Directorio %s\n", entry.first.c_str());
-
-        printf("Archivos:\n");
-            for (const auto& file : entry.second) {
-                printf("  %s\n", file.c_str());
-            }
-    }*/
 
 }
 
@@ -146,11 +133,9 @@ void DirCircle::createSubdirs() {
             
         }
     }
-
+    //se crea un link virtual si es que hay mas de un directorio
     if(dirs.begin()->first != lastIt->first)
         std::filesystem::create_directory_symlink(acc + dirs.begin()->first, dirbase + rutas[lastIt->first]+"/link_to_first");
-     
-    //std::filesystem::create_directory_symlink("../" + dirs.begin()->first,dirbase + rutas[lastIt]->first+"/link_to_first");
      
 
 }
