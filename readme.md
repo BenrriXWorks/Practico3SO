@@ -1,11 +1,11 @@
-**Aplicacion de menu con inicio de sesion y funciones**
+## Aplicacion de menu con inicio de sesion y funciones
 Esta aplicacion permite realizar un login y cargar un menu con
 funciones dependientes de los permisos del usuario.
 Esta aplicacion contiene los siguientes componentes independientes:
 - Login, Menu(main), Indexer, IndexInverter, TreeFilesystem, CircleFilesystem & Plotter.
 Nota: Cada componente en Components cuenta con un readme para su uso individual.
 
-*Actualizaciones Nuevas*
+# Actualizaciones Nuevas
 - Se agregaron las opciones al menu:
     -Crear carpetas basado en sistema de archivos de arbol
         Permite crear un directorio basado en sistema de archivos de arbol a partir de un archivo .dit
@@ -37,13 +37,13 @@ Nota: Cada componente en Components cuenta con un readme para su uso individual.
     .gra: Archivo de puntos para graficacion
 
 
-*Descripcion:*
+# Descripcion:
 - Se leen los argumentos del archivo .env
 - Se inicia sesion con el modulo de login y se recibe un token encriptado.
 - Se lee la respuesta y se crea el usuario.
 - Se inicia un menu con las opciones disponibles.
 
-*Configuracion:*
+# Configuracion:
 No se debe alejar la carpeta libraries.
 - Se puede modificar el programa con:
 - .env (para las rutas y variables) respetando el formato estandar de un archivo ENV.
@@ -53,9 +53,10 @@ No se debe alejar la carpeta libraries.
     ej: rookie;1,2,3
 - data/Users.txt: Agregar usuarios {nombre,perfil}
     ej: benjamin,admin
-Por defecto, todos estos archivos menos el .env se encuentran en data/ y los componentes en Components, pero se puede modificar alterando el .env.
-Las variables de entorno que se leeran desde el .env son {
-    
+
+# Variables de entorno:
+*Obligatorias*
+{
     // Antiguas
     EXTENTION: Extension de los archivos a indexar
     PATH_FILES_IN: Path de los archivos a indexar
@@ -80,20 +81,21 @@ Las variables de entorno que se leeran desde el .env son {
     PLOTTER_PADDING: Cuanto padding tendra la ventana del graficador
     TREE_FILESYSTEM_EXEC_ROUTE: Ruta del main del creador de carpetas por arbol de indices
 }
-y las opcionales son {
-    AT_LEAST_20_FILES_INDEX:1 Si se quiere hacer el indice con minimo 20 archivos, sino simplemente no colocar
+*Opcionales* 
+{
+    AT_LEAST_20_FILES_INDEX:1 Si se quiere hacer el indice con minimo 20 archivos
 }
 
-*Compilado*
+# Compilado
 Simplemente se ejecuta make desde la carpeta base del programa asi: $ make
 El make ejecutara consecutivamente los make de la carpeta Components y dejara a disposicion el del menu.
 
-*Uso:*
+# Uso:
 En linux se puede ejecutar asi:
     ./main -u "nombreUsuario" -i "archivo/para/contar.txt" -o "salida/Archivo/contar.txt" -f "archivo/para/crear.txt" -t "textoParaAgregar" -v "n1;n2;...;n4"
 El unico argumento obligatorio para iniciar es -u
 
-*External*
+# External
 Para el completo funcionamiento se requiere tener instalado X11 (para el proceso externo Graficador) y tree (para los procesos externos sistema de archivos de arbol y sistema de archivos de lista circular)
 para instalar en linux ejecute
 $ sudo apt-get install libx11-dev
