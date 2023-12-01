@@ -5,16 +5,6 @@ Esta aplicacion contiene los siguientes componentes independientes:
 - Login, Menu(main), Indexer, IndexInverter, TreeFilesystem, CircleFilesystem & Plotter.
 Nota: Cada componente en Components cuenta con un readme para su uso individual.
 
-*Actualizacion*
-- Se agrego la opcion al menu llamarBuscador, que permite hacer busquedas sobre el indice
-invertido creado. Es un proceso externo ubicado en Components/BenrrixInvertedSearcher/main.
-Su llamada individual desde su carpeta es: $ ./main pathIndex topk, donde pathIndex es la ubicacion
-del archivo de indice invertido, y topk (num > 4) indica la cantidad de resultados a mostrar en pantalla.
-Hay una documentacion un poco mas detallada en el readme especifico del componente.
-- Se agrego la variable de entorno TOPK que esta relacionado con el punto anterior ^.
-- Se creo una restriccion artificial a la funcion indexadora principal que revisa que los
-archivos a leer sean de tamano mayor a 1 MB.
-
 *Actualizaciones Nuevas*
 - Se agregaron las opciones al menu:
     -Crear carpetas basado en sistema de archivos de arbol
@@ -76,10 +66,10 @@ Las variables de entorno necesarias para el funcionamiento completo son:
     INDEXER_PATH: Path al creador del indice donde iniciar el ./main
 
     // Nuevas
-    DIR_MAX_CIRCLE_FILESYSTEM:
-    AR_MAX_CIRCLE_FILESYSTEM:
-    DIR_CIRCLE_INPUT_ROUTE:
-    DIR_CIRCLE_EXEC_ROUTE:
+    DIR_MAX_CIRCLE_FILESYSTEM: Numero maximo de directorios que se crearan
+    AR_MAX_CIRCLE_FILESYSTEM: Numero maximo de archivos que se crearan por directorio
+    DIR_CIRCLE_INPUT_ROUTE: Ruta del archivo .dre
+    DIR_CIRCLE_EXEC_ROUTE: Ruta del main del creador de carpetas de lista circular
     PLOTTER_EXEC_ROUTE: Ruta del main del graficador 
     PLOTTER_WINDOW_SIDE_SIZE: De que porte en pixeles sera la ventana del graficador
     PLOTTER_PADDING: Cuanto padding tendra la ventana del graficador
@@ -100,3 +90,10 @@ El make ejecutara consecutivamente los make de la carpeta Components y dejara a 
 En linux se puede ejecutar asi:
     ./main -u "nombreUsuario" -i "archivo/para/contar.txt" -o "salida/Archivo/contar.txt" -f "archivo/para/crear.txt" -t "textoParaAgregar" -v "n1;n2;...;n4"
 El unico argumento obligatorio para iniciar es -u
+
+*External*
+Para el completo funcionamiento se requiere tener instalado X11 (para el proceso externo Graficador) y tree (para los procesos externos sistema de archivos de arbol y sistema de archivos de lista circular)
+
+para instalar en linux ejecute
+$ sudo apt-get install libx11-dev
+$ sudo apt-get install tree
