@@ -49,21 +49,17 @@ void crearCarpetasLista(){
     std::string maxDirectorios = env[requieredEnv["DIR_MAX"]];
     std::string maxArchivos = env[requieredEnv["AR_MAX"]];
 
-    int bufferSize = 1024;
-    char* inputFile = new char[bufferSize];
+    std::string input;
     clearWindow();
     fputs_unlocked("-- ACCION REQUERIDA --\nIngrese la ruta del archivo .dre: ", stdout);
-    if (fgets_unlocked(inputFile, bufferSize, stdin) == nullptr) return (void) fputs_unlocked("No se pudo leer la entrada\n", stdout);
-    fputs_unlocked("Entrada recibida\n\n", stdout);
+    std::getline(std::cin, input);
     
-
-
-    
-    std::string command = rutaEjecutableDirCircle + " " + inputFile + " " + maxDirectorios + " " + maxArchivos;
-    printf("Comando ejecutado= %s\n",command.c_str());
-    if(system(command.c_str())){
-        printf("crearCarpetasLista: Hubo un error en la ejecucion.\nPresione enter para continuar...\n");
-    };
+    std::string command = rutaEjecutableDirCircle + " " + input + " " + maxDirectorios + " " + maxArchivos;
+    printf("Comando ejecutado: %s\n",command.c_str());
+    if(system(command.c_str()))
+        printf("crearCarpetasLista: Hubo un error en la ejecucion.\n");
+    printf("\nPresione enter para continuar...\n");
+    getchar_unlocked();
 }
 
 void mostrarGrafico(){
@@ -99,9 +95,10 @@ void mostrarGrafico(){
     // Ejecutar el plotter
     std::string command = "WINDOW_SIZE=" + windowSize + " PADDING=" + padding + " " + rutaEjecutablePlotter + " " + inputFile;
     printf("Comando ejecutado: %s\n", command.c_str());
-    if (system(command.c_str())){
-        printf("mostrarGrafico: Hubo un error en la ejecucion.\nPresione enter para continuar...\n");
-        getchar_unlocked();
-    }
+    if (system(command.c_str()))
+        printf("mostrarGrafico: Hubo un error en la ejecucion.\n");
+    printf("\nPresione enter para continuar...\n");
+    getchar_unlocked();
+    
     
 }
