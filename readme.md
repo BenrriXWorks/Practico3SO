@@ -29,12 +29,13 @@ Nota: Cada componente en Components cuenta con un readme para su uso individual.
         DIR_MAX_CIRCLE_FILESYSTEM, AR_MAX_CIRCLE_FILESYSTEM, DIR_CIRCLE_EXEC_ROUTE, DIR_CIRCLE_INPUT_ROUTE,
         PLOTTER_EXEC_ROUTE, PLOTTER_WINDOW_SIDE_SIZE, PLOTTER_PADDING
     Todas relacionadas con los puntos anteriores en el mismo orden ^
-
-    Hay una documentacion mas detallada en el readme especifico de cada componente.
+    
 - Se pueden leer nuevos tipos de archivos:
     .dit: Archivo de arbol de directorio
     .dre: Archivo de lista circular de directorio
     .gra: Archivo de puntos para graficacion
+Hay una documentacion detallada acerca de estos archivos en los readme de los componentes dedicados a cada tipo,
+TreeFilesystem, CircleFilesystem & Plotter.
 
 
 # Descripcion:
