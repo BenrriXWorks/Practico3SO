@@ -34,13 +34,19 @@ bool DirCircle::process(std::string path,int N , int R){
 
     // Leer dirbase
     line = reader.readLine();
-    if (line.find("dirbase=") == 0) {
-        dirbase = line.substr(8);
+    if (line.find("dirbase=./") == 0) {
+        dirbase = line.substr(10);
     }
     else{
         printf("Formato del archivo %s invalido\n",path.c_str());
         return false;
     } 
+    
+    if (reader.checkDirectory(dirbase)){
+        printf("El directorio base '%s' ya existe, elige otro!\n",dirbase.c_str());
+        return false;
+    }
+    
 
     // Leer dirs
     line = reader.readLine();
@@ -80,7 +86,8 @@ bool DirCircle::process(std::string path,int N , int R){
                 printf("Se excedio el maximo de archivos");
                 return false;
             }
-            dirs[dir] = archivos;
+            if(dirs.find(dir) != dirs.end())
+                dirs[dir] = archivos;
         }
     }
     else{
@@ -116,7 +123,7 @@ void DirCircle::createDir()
 void DirCircle::createSubdirs() {
     // Crear directorio base
     if (mkdir(dirbase.c_str(), 0777) == -1) {
-        printf("El directorio base ya existe\n");
+        printf("Error al crear el directorio base\n");
         exit(EXIT_FAILURE);
     }
 
@@ -139,8 +146,9 @@ void DirCircle::createSubdirs() {
             
         }
     }
-    
-    std::filesystem::create_directory_symlink(acc + dirs.begin()->first, dirbase + rutas[lastIt->first]+"/link_to_first");
+
+    if(dirs.begin()->first != lastIt->first)
+        std::filesystem::create_directory_symlink(acc + dirs.begin()->first, dirbase + rutas[lastIt->first]+"/link_to_first");
      
     //std::filesystem::create_directory_symlink("../" + dirs.begin()->first,dirbase + rutas[lastIt]->first+"/link_to_first");
      
@@ -151,7 +159,6 @@ void DirCircle::createFiles() {
     // Crear archivos en los directorios señalados
     for (const auto& entry : dirs) {
         std::string dirPath = dirbase + rutas[entry.first] + "/";
-        printf("%s",dirPath.c_str());
         for (const auto& file : entry.second) {
             std::ofstream outfile(dirPath + file);
             outfile.close();
