@@ -55,7 +55,7 @@ void crearCarpetasLista(){
     fputs_unlocked("-- ACCION REQUERIDA --\nIngrese la ruta del archivo .dre: ", stdout);
     if (fgets_unlocked(inputFile, bufferSize, stdin) == nullptr) return (void) fputs_unlocked("No se pudo leer la entrada\n", stdout);
     fputs_unlocked("Entrada recibida\n\n", stdout);
-    setenv("RESTART_MENU?", "1", true); // Reiniciar el menu igual que como el buscador antes
+    
 
 
     
