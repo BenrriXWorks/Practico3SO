@@ -8,7 +8,6 @@ void crearCarpetasArbol(){
 
     // Definir las variables de entorno necesarias
     std::map<const char*, std::string> requieredEnv {
-        {"INPUT_FILE", "TREE_FILESYSTEM_INPUT_ROUTE"},
         {"EXECUTABLE", "TREE_FILESYSTEM_EXEC_ROUTE"}
     };
 
@@ -18,7 +17,11 @@ void crearCarpetasArbol(){
             return (void) printf("crearCarpetasArbol: Falta la variable de entorno %s\n", reqEnv.second.c_str());
 
     // Recibir las variables de entorno
-    std::string ditRoute = env[requieredEnv["INPUT_FILE"]];
+    std::string ditRoute;
+    clearWindow();
+    printf("-- Accion requierida--\nIngrese la ruta del archivo .dit: ");
+    std::getline(std::cin, ditRoute);
+    setenv("RESTART_MENU?", "1", true); // Reiniciar el menu al terminar
     std::string execRoute = env[requieredEnv["EXECUTABLE"]];
 
     // Ejecutar el comando
@@ -26,6 +29,8 @@ void crearCarpetasArbol(){
     printf("Comando ejecutado: %s\n", command.c_str());
     if (system(command.c_str()))
         printf("crearCarpetasArbol: Hubo un error en la ejecucion\n");
+    printf("\nPresione enter para continuar...\n");
+    getchar_unlocked();
     
 }
 
