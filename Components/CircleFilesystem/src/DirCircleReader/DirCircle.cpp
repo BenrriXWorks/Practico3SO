@@ -126,6 +126,8 @@ void DirCircle::createSubdirs() {
             std::string dirPath = dirbase + subdir;
             if (mkdir(dirPath.c_str(), 0777) == -1) {
                 printf("Error al crear el directorio %s\n",dirPath.c_str());
+                system(("rm -r "+ dirbase).c_str());
+                printf("Abortando...");
                 exit(EXIT_FAILURE);
             }
             

@@ -34,7 +34,6 @@ void crearCarpetasLista(){
     EnvLoader env = *EnvLoader :: getInstance();
 
     std::map<const char*, std::string> requieredEnv {
-        {"INPUT_FILE","DIR_CIRCLE_INPUT_ROUTE"},
         {"CIRCLE_EXEC", "DIR_CIRCLE_EXEC_ROUTE"},
         {"DIR_MAX", "DIR_MAX_CIRCLE_FILESYSTEM"},
         {"AR_MAX", "AR_MAX_CIRCLE_FILESYSTEM"}
@@ -46,16 +45,25 @@ void crearCarpetasLista(){
             return (void) printf("crearCarpetasLista: Falta la variable de entorno %s\n", reqEnv.second.c_str());
 
 
-    std::string rutaArchivoDirCircle = env[requieredEnv["INPUT_FILE"]];
     std::string rutaEjecutableDirCircle = env[requieredEnv["CIRCLE_EXEC"]];
     std::string maxDirectorios = env[requieredEnv["DIR_MAX"]];
     std::string maxArchivos = env[requieredEnv["AR_MAX"]];
 
+    int bufferSize = 1024;
+    char* inputFile = new char[bufferSize];
+    clearWindow();
+    fputs_unlocked("-- ACCION REQUERIDA --\nIngrese la ruta del archivo .dre: ", stdout);
+    if (fgets_unlocked(inputFile, bufferSize, stdin) == nullptr) return (void) fputs_unlocked("No se pudo leer la entrada\n", stdout);
+    fputs_unlocked("Entrada recibida\n\n", stdout);
+    setenv("RESTART_MENU?", "1", true); // Reiniciar el menu igual que como el buscador antes
+
+
     
-    std::string command = rutaEjecutableDirCircle + " " + rutaArchivoDirCircle + " " + maxDirectorios + " " + maxArchivos;
+    std::string command = rutaEjecutableDirCircle + " " + inputFile + " " + maxDirectorios + " " + maxArchivos;
     printf("Comando ejecutado= %s\n",command.c_str());
-    if(system(command.c_str()))
-        printf("crearCarpetasLista: Hubo un error en la ejecucion\n");
+    if(system(command.c_str())){
+        printf("crearCarpetasLista: Hubo un error en la ejecucion.\nPresione enter para continuar...\n");
+    };
 }
 
 void mostrarGrafico(){
@@ -92,7 +100,7 @@ void mostrarGrafico(){
     std::string command = "WINDOW_SIZE=" + windowSize + " PADDING=" + padding + " " + rutaEjecutablePlotter + " " + inputFile;
     printf("Comando ejecutado: %s\n", command.c_str());
     if (system(command.c_str())){
-        printf("mostrarGrafico: Hubo un error en la ejecucion.\nPresione cualquier tecla para continuar...\n");
+        printf("mostrarGrafico: Hubo un error en la ejecucion.\nPresione enter para continuar...\n");
         getchar_unlocked();
     }
     
