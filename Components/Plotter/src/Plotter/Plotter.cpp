@@ -106,6 +106,7 @@ int plot(std::vector<std::pair<float, float>> points, const char* titulo){
 
             // Dibujar los puntos
             // Por cada par de puntos, hacer una linea
+            if (points.size() == 0) continue;
             auto last = points.front();
             // Hacer el primer puntito en pantalla
             auto firstPoint = transformPoint(last, SCR_BOTTOM_AXIS_X, GRAPH_SIZE, PADDING);

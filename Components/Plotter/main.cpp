@@ -70,11 +70,14 @@ int main(int argc, char** argv){
     // Interpretar el archivo de entrada y validar su formato (EL Titulo puede estar vacio)
     vector<pair<float, float>> points;
     string title;
+    int nline = 0;
     try{
         auto [titleKey, titlevalue] = split1(fileReader.readLine(), ':');
         if (titleKey != "titulo") throw runtime_error("Debe ingresar el titulo en la primera linea asi: titulo:{TITULO}");
         title = stripAllOf(titlevalue, "\"'");
+        
         for (const auto& line : fileReader.readLines()){
+            ++nline;
             // En caso de lineas vacias se salta
             if (line.empty()) continue;
             // Sacar los valores de la forma x:n,y:n
@@ -93,6 +96,7 @@ int main(int argc, char** argv){
     } catch(exception &e){
         printf("El archivo de entrada no cumple con el formato establecido\n");
         printf("Error especifico: %s\n", e.what());
+        printf("Revisar en la linea %d\n", nline);
         return EXIT_FAILURE;
     }
 
