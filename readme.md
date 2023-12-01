@@ -15,6 +15,33 @@ Hay una documentacion un poco mas detallada en el readme especifico del componen
 - Se creo una restriccion artificial a la funcion indexadora principal que revisa que los
 archivos a leer sean de tamano mayor a 1 MB.
 
+*Actualizaciones Nuevas*
+- Se agregaron las opciones al menu:
+    -Crear carpetas basado en sistema de archivos de arbol
+        Permite crear un directorio basado en sistema de archivos de arbol a partir de un archivo .dit
+        Se encuentra ubicado en Components/TreeFilesystem/main
+        Su llamada individual desde su carpeta es: $ ./main path donde path es la ubicacion del archivo .dit
+
+    -Crear carpetas basado en sistema de archivos de lista circular
+        Permite crear un directorio basado en sistema de archivos de lista circular a  partir de un archivo .dre
+        Se encuentra ubicado en Components/CircleFilesystem/main
+        Su llamada individual desde su carpeta es: $ ./main path  N R donde path es la ubicacion del archivo .dre
+        N es el numero maximo de directorios permitidos y 
+        R es el numero maximo de archivos permitidos por directorio
+
+    -Mostrar grafico de los puntos entregados
+        Permite crear un grafico a partir de un archivo .gra
+        Se encuentra ubicado en Components/Plotter/main
+        Su llamada individual desde su carpeta es: $ ./main path donde path es la ubicacion del archivo .gra
+    
+    Se agregaron las variables de entorno 
+        TREE_FILESYSTEM_INPUT_ROUTE, TREE_FILESYSTEM_EXEC_ROUTE,
+        DIR_MAX_CIRCLE_FILESYSTEM, AR_MAX_CIRCLE_FILESYSTEM, DIR_CIRCLE_EXEC_ROUTE, DIR_CIRCLE_INPUT_ROUTE,
+        PLOTTER_EXEC_ROUTE, PLOTTER_WINDOW_SIDE_SIZE, PLOTTER_PADDING
+    Todas relacionadas con los puntos anteriores ^
+
+    Hay una documentacion mas detallada en el readme especifico de cada componente
+
 *Descripcion:*
 - Se leen los argumentos del archivo .env
 - Se inicia sesion con el modulo de login y se recibe un token encriptado.
@@ -34,7 +61,7 @@ No se debe alejar la carpeta libraries.
 Por defecto, todos estos archivos menos el .env se encuentran en data/ y los componentes en Components, pero se puede modificar alterando el .env.
 Las variables de entorno necesarias para el funcionamiento completo son:
 {EXTENTION, PATH_FILES_IN, PATH_FILES_OUT, AMOUTN_THREADS, INVERTED_INDEX_FILE, USERS_DB, PERMISSIONS_DB, OPTIONS_DB,
-INDEXER_PATH, LOGIN_EXECUTABLE, INVERTED_INDEXER_PATH, TOPK}.
+INDEXER_PATH, LOGIN_EXECUTABLE, INVERTED_INDEXER_PATH, TOPK, DIR_MAX_CIRCLE_FILESYSTEM, AR_MAX_CIRCLE_FILESYSTEM, DIR_CIRCLE_INPUT_ROUTE, DIR_CIRCLE_EXEC_ROUTE, PLOTTER_EXEC_ROUTE, PLOTTER_WINDOW_SIDE_SIZE, PLOTTER_PADDING, TREE_FILESYSTEM_INPUT_ROUTE, TREE_FILESYSTEM_EXEC_ROUTE}.
 y las opcionales son:
 {AT_LEAST_20_FILES_INDEX}
 Nota: Las funciones relacionadas con la indexacion llaman procesos externos, los cuales se encuentran en la 
