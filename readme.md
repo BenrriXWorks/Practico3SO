@@ -26,7 +26,7 @@ Nota: Cada componente en Components cuenta con un readme para su uso individual.
     
     Se agregaron las variables de entorno 
         TREE_FILESYSTEM_INPUT_ROUTE, TREE_FILESYSTEM_EXEC_ROUTE,
-        DIR_MAX_CIRCLE_FILESYSTEM, AR_MAX_CIRCLE_FILESYSTEM, DIR_CIRCLE_EXEC_ROUTE, DIR_CIRCLE_INPUT_ROUTE,
+        DIR_MAX_CIRCLE_FILESYSTEM, AR_MAX_CIRCLE_FILESYSTEM, DIR_CIRCLE_EXEC_ROUTE,
         PLOTTER_EXEC_ROUTE, PLOTTER_WINDOW_SIDE_SIZE, PLOTTER_PADDING
     Todas relacionadas con los puntos anteriores en el mismo orden ^
     
@@ -75,7 +75,6 @@ No se debe alejar la carpeta libraries.
     // Nuevas
     DIR_MAX_CIRCLE_FILESYSTEM: Numero maximo de directorios que se crearan
     AR_MAX_CIRCLE_FILESYSTEM: Numero maximo de archivos que se crearan por directorio
-    DIR_CIRCLE_INPUT_ROUTE: Ruta del archivo .dre
     DIR_CIRCLE_EXEC_ROUTE: Ruta del main del creador de carpetas de lista circular
     PLOTTER_EXEC_ROUTE: Ruta del main del graficador 
     PLOTTER_WINDOW_SIDE_SIZE: De que porte en pixeles sera la ventana del graficador
