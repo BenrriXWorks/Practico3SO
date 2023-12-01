@@ -2,7 +2,7 @@
 Esta aplicacion permite realizar un login y cargar un menu con
 funciones dependientes de los permisos del usuario.
 Esta aplicacion contiene los siguientes componentes independientes:
-- Login, Menu, Indexer & IndexInverter.
+- Login, Menu(main), Indexer, IndexInverter, TreeFilesystem, CircleFilesystem & Plotter.
 Nota: Cada componente en Components cuenta con un readme para su uso individual.
 
 *Actualizacion*
@@ -25,7 +25,7 @@ archivos a leer sean de tamano mayor a 1 MB.
     -Crear carpetas basado en sistema de archivos de lista circular
         Permite crear un directorio basado en sistema de archivos de lista circular a  partir de un archivo .dre
         Se encuentra ubicado en Components/CircleFilesystem/main
-        Su llamada individual desde su carpeta es: $ ./main path  N R donde path es la ubicacion del archivo .dre
+        Su llamada individual desde su carpeta es: $ ./main path N R donde path es la ubicacion del archivo .dre
         N es el numero maximo de directorios permitidos y 
         R es el numero maximo de archivos permitidos por directorio
 
@@ -38,7 +38,7 @@ archivos a leer sean de tamano mayor a 1 MB.
         TREE_FILESYSTEM_INPUT_ROUTE, TREE_FILESYSTEM_EXEC_ROUTE,
         DIR_MAX_CIRCLE_FILESYSTEM, AR_MAX_CIRCLE_FILESYSTEM, DIR_CIRCLE_EXEC_ROUTE, DIR_CIRCLE_INPUT_ROUTE,
         PLOTTER_EXEC_ROUTE, PLOTTER_WINDOW_SIDE_SIZE, PLOTTER_PADDING
-    Todas relacionadas con los puntos anteriores ^
+    Todas relacionadas con los puntos anteriores en el mismo orden ^
 
     Hay una documentacion mas detallada en el readme especifico de cada componente
 
@@ -60,12 +60,37 @@ No se debe alejar la carpeta libraries.
     ej: benjamin,admin
 Por defecto, todos estos archivos menos el .env se encuentran en data/ y los componentes en Components, pero se puede modificar alterando el .env.
 Las variables de entorno necesarias para el funcionamiento completo son:
-{EXTENTION, PATH_FILES_IN, PATH_FILES_OUT, AMOUTN_THREADS, INVERTED_INDEX_FILE, USERS_DB, PERMISSIONS_DB, OPTIONS_DB,
-INDEXER_PATH, LOGIN_EXECUTABLE, INVERTED_INDEXER_PATH, TOPK, DIR_MAX_CIRCLE_FILESYSTEM, AR_MAX_CIRCLE_FILESYSTEM, DIR_CIRCLE_INPUT_ROUTE, DIR_CIRCLE_EXEC_ROUTE, PLOTTER_EXEC_ROUTE, PLOTTER_WINDOW_SIDE_SIZE, PLOTTER_PADDING, TREE_FILESYSTEM_INPUT_ROUTE, TREE_FILESYSTEM_EXEC_ROUTE}.
+{
+    // Antiguas
+    EXTENTION: Extension de los archivos a indexar
+    PATH_FILES_IN: Path de los archivos a indexar
+    PATH_FILES_OUT: Path de salida de los archivos indexados
+    AMOUTN_THREADS: Cantidad de threads para indexar
+    INVERTED_INDEX_FILE: Ruta donde se guardara/leera el indice invertido
+    USERS_DB: Ruta del archivo de base de datos de usuarios
+    PERMISSIONS_DB: Ruta del archivo de base de datos de permisos
+    OPTIONS_DB: Ruta del archivo de base de datos de opciones
+    LOGIN_EXECUTABLE: Ruta del ejecutable del componente de login
+    INVERTED_INDEXER_PATH: Ruta a la carpeta donde se encuentra el main del indice invertido
+    TOPK: Resultados a mostrar en el buscador
+    INDEXER_PATH: Path al creador del indice donde iniciar el ./main
+
+    // Nuevas
+    DIR_MAX_CIRCLE_FILESYSTEM:
+    AR_MAX_CIRCLE_FILESYSTEM:
+    DIR_CIRCLE_INPUT_ROUTE:
+    DIR_CIRCLE_EXEC_ROUTE:
+    PLOTTER_EXEC_ROUTE: Ruta del main del graficador 
+    PLOTTER_WINDOW_SIDE_SIZE: De que porte en pixeles sera la ventana del graficador
+    PLOTTER_PADDING: Cuanto padding tendra la ventana del graficador
+    TREE_FILESYSTEM_EXEC_ROUTE: Ruta del main del creador de carpetas por arbol de indices
+}
 y las opcionales son:
-{AT_LEAST_20_FILES_INDEX}
-Nota: Las funciones relacionadas con la indexacion llaman procesos externos, los cuales se encuentran en la 
-carpeta de componentes, y sus formas de compilacion y uso se encuentran en sus respectivos readme.
+{
+    AT_LEAST_20_FILES_INDEX:1 Si se quiere hacer el indice con minimo 20 archivos, sino simplemente no colocar
+}
+Hay mas informacion sobre como se usan las variables de entorno dentro de los readme del componente respectivo.
+Puede que el nombre no sea exactamente el mismo en ese readme.
 
 *Compilado*
 Simplemente se ejecuta make desde la carpeta base del programa asi: $ make
