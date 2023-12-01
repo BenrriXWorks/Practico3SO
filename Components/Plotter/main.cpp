@@ -102,8 +102,8 @@ int main(int argc, char** argv){
 
 
     // Ordenar los puntos (comparando con la clave x)
-    auto pointsComparator = [](std::pair<float, float> p1, std::pair<float, float> p2){ return p1.first < p2.first; };
-    sort(std::execution::par, points.begin(), points.end(), pointsComparator);
+    auto pointsComparator = [](pair<float, float> p1, pair<float, float> p2){ return p1.first < p2.first; };
+    sort(execution::par, points.begin(), points.end(), pointsComparator);
 
     // Crear el grafico
     plot(points, title.c_str());
