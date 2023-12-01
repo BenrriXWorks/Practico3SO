@@ -54,7 +54,8 @@ No se debe alejar la carpeta libraries.
 - data/Users.txt: Agregar usuarios {nombre,perfil}
     ej: benjamin,admin
 Por defecto, todos estos archivos menos el .env se encuentran en data/ y los componentes en Components, pero se puede modificar alterando el .env.
-Las variables de entorno necesarias para el funcionamiento completo son {
+Las variables de entorno que se leeran desde el .env son {
+    
     // Antiguas
     EXTENTION: Extension de los archivos a indexar
     PATH_FILES_IN: Path de los archivos a indexar
