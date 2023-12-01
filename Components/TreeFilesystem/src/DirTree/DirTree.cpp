@@ -21,9 +21,16 @@ DirTree* DirTree::fromFile(std::string route, std::string extension){
     if (!fr.open(route)) return nullptr;
 
     // Crear el contenedor
-    DirTree* dirTree = new DirTree();
-    dirTree->setjs(nlohmann::json::parse(fr.read()));
-    return dirTree;
+    try {
+        DirTree* dirTree = new DirTree();
+        dirTree->setjs(nlohmann::json::parse(fr.read()));
+        return dirTree;
+    }
+    catch(std::exception &e){
+        fprintf(stderr, "El archivo .dit no tiene el formato correcto.\n");
+        fprintf(stderr, "Error especifico: %s.\n", e.what());
+        return nullptr;
+    }
 }
 
 // Funcion auxiliar recursiva para crear los objetos
