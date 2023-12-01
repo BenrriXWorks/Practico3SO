@@ -105,6 +105,8 @@ void makeObjects(std::string parentDir, const nlohmann::json& object) {
         for (const auto& contents : object["objetos"]) 
             makeObjects(parentDir + "/" + name, contents);
     }
+    else
+        printf("Saltando... %s (tipo invalido)\n",object.dump().c_str());
 };
 
 void DirTree::createDir() {

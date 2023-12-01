@@ -88,6 +88,8 @@ bool DirCircle::process(std::string path,int N , int R){
             }
             if(dirs.find(dir) != dirs.end())
                 dirs[dir] = archivos;
+            else
+                printf("Directorio %s no fue declarado, saltando...\n",dir.c_str());
         }
     }
     else{
