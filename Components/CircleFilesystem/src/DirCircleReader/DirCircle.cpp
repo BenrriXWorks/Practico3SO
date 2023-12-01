@@ -63,7 +63,7 @@ bool DirCircle::process(std::string path,int N , int R){
             acc +=  dir + "/";
             
         }
-        if(dirs.size() >N){
+        if(dirs.size() >(size_t)N){
             printf("Se excedio el maximo de directorios\n");
             return false;
         }
@@ -82,7 +82,7 @@ bool DirCircle::process(std::string path,int N , int R){
 
             // Agregar los archivos al vector asociado a la clave
             std::vector< std::string > archivos = split(files, ';');
-            if(archivos.size() > R){
+            if(archivos.size() > (size_t)R){
                 printf("Se excedio el maximo de archivos\n");
                 return false;
             }
@@ -126,7 +126,8 @@ void DirCircle::createSubdirs() {
             std::string dirPath = dirbase + subdir;
             if (mkdir(dirPath.c_str(), 0777) == -1) {
                 printf("Error al crear el directorio %s\n",dirPath.c_str());
-                system(("rm -r "+ dirbase).c_str());
+                if(!system(("rm -r "+ dirbase).c_str()))
+                    printf("Error al borrar el directorio base\n");
                 printf("Abortando...\n");
                 exit(EXIT_FAILURE);
             }
