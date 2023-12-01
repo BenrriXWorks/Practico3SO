@@ -30,7 +30,12 @@ Nota: Cada componente en Components cuenta con un readme para su uso individual.
         PLOTTER_EXEC_ROUTE, PLOTTER_WINDOW_SIDE_SIZE, PLOTTER_PADDING
     Todas relacionadas con los puntos anteriores en el mismo orden ^
 
-    Hay una documentacion mas detallada en el readme especifico de cada componente
+    Hay una documentacion mas detallada en el readme especifico de cada componente.
+- Se pueden leer nuevos tipos de archivos:
+    .dit: Archivo de arbol de directorio
+    .dre: Archivo de lista circular de directorio
+    .gra: Archivo de puntos para graficacion
+
 
 *Descripcion:*
 - Se leen los argumentos del archivo .env
@@ -49,8 +54,7 @@ No se debe alejar la carpeta libraries.
 - data/Users.txt: Agregar usuarios {nombre,perfil}
     ej: benjamin,admin
 Por defecto, todos estos archivos menos el .env se encuentran en data/ y los componentes en Components, pero se puede modificar alterando el .env.
-Las variables de entorno necesarias para el funcionamiento completo son:
-{
+Las variables de entorno necesarias para el funcionamiento completo son {
     // Antiguas
     EXTENTION: Extension de los archivos a indexar
     PATH_FILES_IN: Path de los archivos a indexar
@@ -75,12 +79,9 @@ Las variables de entorno necesarias para el funcionamiento completo son:
     PLOTTER_PADDING: Cuanto padding tendra la ventana del graficador
     TREE_FILESYSTEM_EXEC_ROUTE: Ruta del main del creador de carpetas por arbol de indices
 }
-y las opcionales son:
-{
+y las opcionales son {
     AT_LEAST_20_FILES_INDEX:1 Si se quiere hacer el indice con minimo 20 archivos, sino simplemente no colocar
 }
-Hay mas informacion sobre como se usan las variables de entorno dentro de los readme del componente respectivo.
-Puede que el nombre no sea exactamente el mismo en ese readme.
 
 *Compilado*
 Simplemente se ejecuta make desde la carpeta base del programa asi: $ make
@@ -93,7 +94,6 @@ El unico argumento obligatorio para iniciar es -u
 
 *External*
 Para el completo funcionamiento se requiere tener instalado X11 (para el proceso externo Graficador) y tree (para los procesos externos sistema de archivos de arbol y sistema de archivos de lista circular)
-
 para instalar en linux ejecute
 $ sudo apt-get install libx11-dev
 $ sudo apt-get install tree
